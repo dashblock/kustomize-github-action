@@ -26,22 +26,20 @@ function parse_inputs {
     fi
 
     enable_alpha_plugins=""
-   if [ "${INPUT_ENABLE_ALPHA_PLUGINS}" == "1" ] || [ "${INPUT_ENABLE_ALPHA_PLUGINS}" == "true" ]; then
+    if [ "${INPUT_ENABLE_ALPHA_PLUGINS}" == "1" ] || [ "${INPUT_ENABLE_ALPHA_PLUGINS}" == "true" ]; then
        enable_alpha_plugins="--enable_alpha_plugins"
     fi
 }
 
 function install_kustomize {
-    url="https://github.com/kubernetes-sigs/kustomize/releases/download/v${kustomize_version}/kustomize_${kustomize_version}_linux_amd64"
-
+    url="https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv${kustomize_version}/kustomize_v${kustomize_version}_linux_amd64.tar.gz"
     echo "Downloading kustomize v${kustomize_version}"
-    curl -s -S -L ${url} -o /usr/bin/kustomize
+    wget -q $url -O- | tar -xzvf - -C /usr/bin
     if [ "${?}" -ne 0 ]; then
         echo "Failed to download kustomize v${kustomize_version}."
         exit 1
     fi
     echo "Successfully downloaded kustomize v${kustomize_version}."
-
     echo "Allowing execute privilege to kustomize."
     chmod +x /usr/bin/kustomize
     if [ "${?}" -ne 0 ]; then
