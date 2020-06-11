@@ -12,7 +12,6 @@ function kustomize_build {
     if [ ${build_exit_code} -eq 0 ];then
         build_comment_status="Success"
         echo "build: info: successfully executed kustomize build in ${kustomize_build_dir}."
-        echo "${build_output}"
         echo
     fi
 
